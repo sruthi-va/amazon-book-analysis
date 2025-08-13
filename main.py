@@ -1,25 +1,27 @@
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 
-df = pd.read_csv('bestsellers.csv')
+# Optional: set a clean style for plots
+sns.set_theme(style="whitegrid")
 
-print(df.describe())
+# Load data
+df = pd.read_csv("bestsellers.csv")  # replace with your dataset
 
-df.drop_duplicates(inplace=True)
+plt.figure(figsize=(8, 5))
+sns.histplot(df['Price'], bins=20, kde=True)
+plt.title("Distribution of Book Prices")
+plt.xlabel("Price ($)")
+plt.ylabel("Count")
+plt.show()
 
-df.rename(columns={"Name": "Title", "Year": "Publication Year", "User Rating": "Rating"}, inplace=True)
+plt.figure(figsize=(6, 5))
+sns.boxplot(x=df['User Rating'])
+plt.title("Distribution of User Ratings")
+plt.xlabel("User Rating")
+plt.show()
 
-df["Price"] = df["Price"].astype(float)
-
-print(df.describe())
-
-author_counts = df['Author'].value_counts()
-print(author_counts)
-
-avg_rating_by_genre = df.groupby("Genre")["Rating"].mean()
-print(avg_rating_by_genre)
-
-# Export top selling authors to a CSV file
-author_counts.head(10).to_csv("top_authors.csv")
-
-# Export average rating by genre to a CSV file
-avg_rating_by_genre.to_csv("avg_rating_by_genre.csv")
+plt.figure(figsize=(8, 5))
+sns.boxplot(x="Genre", y="Price", data=df)
+plt.title("Book Price Distribution by Genre")
+plt.show()
