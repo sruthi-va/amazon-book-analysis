@@ -11,3 +11,15 @@ df.rename(columns={"Name": "Title", "Year": "Publication Year", "User Rating": "
 df["Price"] = df["Price"].astype(float)
 
 print(df.describe())
+
+author_counts = df['Author'].value_counts()
+print(author_counts)
+
+avg_rating_by_genre = df.groupby("Genre")["Rating"].mean()
+print(avg_rating_by_genre)
+
+# Export top selling authors to a CSV file
+author_counts.head(10).to_csv("top_authors.csv")
+
+# Export average rating by genre to a CSV file
+avg_rating_by_genre.to_csv("avg_rating_by_genre.csv")
